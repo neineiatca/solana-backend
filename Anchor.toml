@@ -1,17 +1,17 @@
 [programs.localnet]
-solana_twitter = "8d294AYbrmu2McpoN1S3SsAP1AH1nAVG781Yvh8G3BQY"
+solana_twitter = "GR6Qii3pBxQBkE8VPWcLninHFccjBSy7QGLZ3EvqVFRc"
 
 [programs.devnet]
-solana_twitter = "8d294AYbrmu2McpoN1S3SsAP1AH1nAVG781Yvh8G3BQY"
+solana_twitter = "GR6Qii3pBxQBkE8VPWcLninHFccjBSy7QGLZ3EvqVFRc"
 
 [programs.mainnet]
-solana_twitter = "8d294AYbrmu2McpoN1S3SsAP1AH1nAVG781Yvh8G3BQY"
+solana_twitter = "GR6Qii3pBxQBkE8VPWcLninHFccjBSy7QGLZ3EvqVFRc"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/Users/senan/.config/solana/id.json"
 
 [scripts]
