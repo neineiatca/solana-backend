@@ -7,17 +7,40 @@ declare_id!("GR6Qii3pBxQBkE8VPWcLninHFccjBSy7QGLZ3EvqVFRc");
 pub mod solana_twitter {
     use super::*;
 
-    pub fn create(ctx: Context<Create>) -> ProgramResult {
-        let base_account = &mut ctx.accounts.base_account;
-        base_account.count = 0;
+    
+
+
+
+
+    pub fn createapi(ctx: Context<ActionCreate>, data: String) -> ProgramResult {
         Ok(())
     }
 
-    pub fn increment(ctx: Context<Increment>) -> ProgramResult {
-        let base_account = &mut ctx.accounts.base_account;
-        base_account.count += 1;
+    pub fn updateapi(ctx: Context<ActionUpdate>, data: String) -> ProgramResult {
         Ok(())
     }
+
+
+
+    pub fn initialize(ctx: Context<Initialize>, data: String) -> ProgramResult {
+        let base_account = &mut ctx.accounts.base_account;
+        let copy = data.clone();
+        base_account.data = data;
+        base_account.data_list.push(copy);
+        Ok(())
+    }
+
+    pub fn update(ctx: Context<Update>, data: String) -> ProgramResult {
+        let base_account = &mut ctx.accounts.base_account;
+        let copy = data.clone();
+        base_account.data = data;
+        base_account.data_list.push(copy);
+        Ok(())
+    }
+
+
+
+
 
     pub fn send_tweet(ctx: Context<SendTweet>, topic: String, content: String) -> ProgramResult {
         let tweet: &mut Account<Tweet> = &mut ctx.accounts.tweet;
@@ -66,28 +89,60 @@ pub mod solana_twitter {
     }
 }
 
-// Transaction instructions
+
+
+
+
 #[derive(Accounts)]
-pub struct Create<'info> {
-    #[account(init, payer = user, space = 16 + 16)]
+pub struct ActionCreate<'info>{
+    #[account(init, payer = user, space = 64)]
+    pub obj1: Account<'info, Obj1>,
+    #[account(mut)]
+    pub user: Signer<'info>,
+    pub system_program: Program<'info, System>
+}
+#[derive(Accounts)]
+pub struct ActionUpdate<'info>{
+    #[account(mut)]
+    pub obj1: Account<'info, Obj1>
+}
+#[account]
+pub struct Obj1 {
+    pub field1: String,
+    pub field2: String
+}
+
+
+
+
+
+
+
+#[derive(Accounts)]
+pub struct Initialize<'info> {
+    #[account(init, payer = user, space = 64 + 64)]
     pub base_account: Account<'info, BaseAccount>,
     #[account(mut)]
     pub user: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
 
-// Transaction instructions
 #[derive(Accounts)]
-pub struct Increment<'info> {
+pub struct Update<'info> {
     #[account(mut)]
     pub base_account: Account<'info, BaseAccount>,
 }
 
-// An account that goes inside a transaction instruction
 #[account]
 pub struct BaseAccount {
-    pub count: u64,
+    pub data: String,
+    pub data_list: Vec<String>,
 }
+
+
+
+
+
 
 #[derive(Accounts)]
 pub struct SendTweet<'info> {
