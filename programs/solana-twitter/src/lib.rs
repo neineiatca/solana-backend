@@ -13,6 +13,8 @@ pub mod solana_twitter {
 
 
     pub fn createapi(ctx: Context<ActionCreate>, data: String) -> ProgramResult {
+        let obj1 = &mut ctx.accounts.obj1;
+        obj1.field1 = data;
         Ok(())
     }
 
