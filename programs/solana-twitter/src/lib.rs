@@ -12,17 +12,28 @@ pub mod solana_twitter {
 
 
 
+
     pub fn createapi(ctx: Context<ActionCreate>, data: String) -> ProgramResult {
         let obj1 = &mut ctx.accounts.obj1;
+        let clock: Clock = Clock::get().unwrap();
+
         obj1.field1 = data;
+        obj1.timestamp = clock.unix_timestamp;
+
         Ok(())
     }
 
     pub fn updateapi(ctx: Context<ActionUpdate>, data: String) -> ProgramResult {
         let obj1 = &mut ctx.accounts.obj1;
+        let clock: Clock = Clock::get().unwrap();
+
         obj1.field1 = data;
+        obj1.timestamp = clock.unix_timestamp;
+
         Ok(())
     }
+
+
 
 
 
@@ -99,7 +110,7 @@ pub mod solana_twitter {
 
 #[derive(Accounts)]
 pub struct ActionCreate<'info>{
-    #[account(init, payer = user, space = 64)]
+    #[account(init, payer = user, space = 128)]
     pub obj1: Account<'info, Obj1>,
     #[account(mut)]
     pub user: Signer<'info>,
@@ -113,7 +124,8 @@ pub struct ActionUpdate<'info>{
 #[account]
 pub struct Obj1 {
     pub field1: String,
-    pub field2: String
+    pub field2: String,
+    pub timestamp: i64,
 }
 
 
